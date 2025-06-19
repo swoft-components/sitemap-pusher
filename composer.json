@@ -1,0 +1,45 @@
+{
+    "name": "swoft-components/sitemap-pusher",
+    "description": "SitemapPusher 是一个专门为Web开发者设计的PHP库，旨在简化向各大站长平台提交网站链接的过程。通过自动化的链接提交，帮助加速搜索引擎对新发布或更新内容的收录速度。当前版本支持百度搜索、360搜索、搜狗搜索以及头条搜索等主流中文搜索引擎。",
+    "type": "library",
+    "version": "1.0.0",
+    "repositories": [
+        {
+            "type": "path",
+            "url": "../stdlib"
+        }
+    ],
+    "require": {
+        "php": ">=7.4",
+        "swoft/framework": "~2.0.0",
+        "swoft-components/stdlib": "~1.0.0",
+        "ext-curl": "*"
+    },
+    "autoload": {
+        "psr-4": {
+            "Swoft\\SitemapPusher\\": "src/"
+        }
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^7.5||^8.0"
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "SwoftTest\\Unit\\": "vendor/swoft/framework/test/unit/",
+            "SwoftTest\\Testing\\": "vendor/swoft/framework/test/testing/",
+            "SwoftTest\\SitemapPusher\\Unit\\": "test/unit",
+            "SwoftTest\\SitemapPusher\\Testing\\": "test/testing"
+        }
+    },
+    "license": "Apache-2.0",
+    "authors": [
+        {
+            "name": "liujie",
+            "email": "king.2oo8@163.com"
+        }
+    ],
+    "minimum-stability": "stable",
+    "scripts": {
+        "test": "php run.php -c phpunit.xml"
+    }
+}

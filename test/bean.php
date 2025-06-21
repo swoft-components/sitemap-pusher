@@ -15,4 +15,17 @@ return [
     'config' => [
         'path' => __DIR__ . '/config',
     ],
+    'sitemap-generator' => [
+        'dataSourceList' => [
+            bean('custom-datasource')
+        ],
+    ],
+    'custom-datasource' => [
+        'class' => \Swoft\SitemapPusher\DataSource\CustomDataSource::class,
+        'data' => [
+            'https://www.liujie.xin/',
+            'https://www.liujie.xin/index.html',
+            'https://www.liujie.xin/about.html',
+        ],
+    ],
 ];

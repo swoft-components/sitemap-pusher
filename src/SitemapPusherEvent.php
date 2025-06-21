@@ -29,6 +29,26 @@ class SitemapPusherEvent
     /**
      * 提交网络地图链接之后触发
      */
-    const AFTER_SUBMIT ='swoft.sitemap.pusher.after.submit';
+    const AFTER_SUBMIT = 'swoft.sitemap.pusher.after.submit';
+
+    /**
+     * 生成网络地图文件之前触发
+     */
+    const BEFORE_GENERATE = 'swoft.sitemap.pusher.before.generate';
+
+    /**
+     * 生成网络地图文件之后触发
+     */
+    const AFTER_GENERATE = 'swoft.sitemap.pusher.after.generate';
+
+    /**
+     * 生成网络地图文件异常时触发
+     */
+    const GENERATE_EXCEPTION = 'swoft.sitemap.pusher.generate.exception';
+
+    /**
+     * 生成网络地图文件进度触发
+     */
+    const GENERATE_PROGRESS = 'swoft.sitemap.pusher.generate.progress';
 
 }

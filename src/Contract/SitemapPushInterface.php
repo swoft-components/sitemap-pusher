@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 /**
- * SitemapInterface.php
+ * SitemapPushInterface.php
  *
  * 版权所有(c) 2025 刘杰（king.2oo8@163.com）。保留所有权利。
  *
@@ -15,7 +15,7 @@ namespace Swoft\SitemapPusher\Contract;
 
 use Swoft\Stdlib\Contract\ResponseInterface;
 
-interface SitemapInterface
+interface SitemapPushInterface
 {
 
     public function submit(array $urls): ResponseInterface;

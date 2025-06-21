@@ -11,7 +11,7 @@
  * @contact king.2oo8@163.com
  */
 
-namespace Swoft\SitemapPusher\unit;
+namespace SwoftTest\SitemapPusher\Unit;
 
 use PHPUnit\Framework\TestCase;
 use Swoft\SitemapPusher\Site\Baidu;

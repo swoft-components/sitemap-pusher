@@ -13,7 +13,7 @@
 
 namespace Swoft\SitemapPusher\Site;
 
-use Swoft\SitemapPusher\Contract\SitemapInterface;
+use Swoft\SitemapPusher\Contract\SitemapPushInterface;
 use Swoft\SitemapPusher\Exception\SitemapPusherException;
 use Swoft\Stdlib\Contract\ResponseInterface;
 use Swoft\Stdlib\Response;
@@ -23,7 +23,7 @@ use Swoft\Stdlib\Response;
  *
  * @since 1.0.0
  */
-class Baidu implements SitemapInterface
+class Baidu implements SitemapPushInterface
 {
 
     /**

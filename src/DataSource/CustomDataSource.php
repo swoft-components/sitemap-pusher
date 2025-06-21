@@ -11,11 +11,11 @@
  * @contact king.2oo8@163.com
  */
 
-namespace Swoft\SitemapPusher\DataSource;
+namespace SwoftComponents\SitemapPusher\DataSource;
 
 use Swoft\Bean\Annotation\Mapping\Bean;
-use Swoft\SitemapPusher\Contract\DataSourceInterface;
-use Swoft\SitemapPusher\Sitemap;
+use SwoftComponents\SitemapPusher\Contract\DataSourceInterface;
+use SwoftComponents\SitemapPusher\Sitemap;
 
 /**
  * Class CustomSource

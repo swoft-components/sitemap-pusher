@@ -11,11 +11,11 @@
  * @contact king.2oo8@163.com
  */
 
-namespace Swoft\SitemapPusher;
+namespace SwoftComponents\SitemapPusher;
 
 use Swoft\Bean\Concern\PrototypeTrait;
-use Swoft\SitemapPusher\Contract\DataSourceInterface;
-use Swoft\SitemapPusher\Exception\SitemapPusherException;
+use SwoftComponents\SitemapPusher\Contract\DataSourceInterface;
+use SwoftComponents\SitemapPusher\Exception\SitemapPusherException;
 
 /**
  * Class Sitemap

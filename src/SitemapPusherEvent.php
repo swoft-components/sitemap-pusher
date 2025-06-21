@@ -11,7 +11,7 @@
  * @contact king.2oo8@163.com
  */
 
-namespace Swoft\SitemapPusher;
+namespace SwoftComponents\SitemapPusher;
 
 /**
  * Class SitemapPusherEvent

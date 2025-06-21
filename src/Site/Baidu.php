@@ -11,12 +11,12 @@
  * @contact king.2oo8@163.com
  */
 
-namespace Swoft\SitemapPusher\Site;
+namespace SwoftComponents\SitemapPusher\Site;
 
-use Swoft\SitemapPusher\Contract\SitemapPushInterface;
-use Swoft\SitemapPusher\Exception\SitemapPusherException;
-use Swoft\Stdlib\Contract\ResponseInterface;
-use Swoft\Stdlib\Response;
+use SwoftComponents\SitemapPusher\Contract\SitemapPushInterface;
+use SwoftComponents\SitemapPusher\Exception\SitemapPusherException;
+use SwoftComponents\SitemapPusher\Response;
+use SwoftComponents\Stdlib\Contract\ResponseInterface;
 
 /**
  * Class Baidu

@@ -11,11 +11,11 @@
  * @contact king.2oo8@163.com
  */
 
-namespace SwoftTest\SitemapPusher\Unit;
+namespace SwoftComponentsTest\SitemapPusher\Unit;
 
 use PHPUnit\Framework\TestCase;
-use Swoft\SitemapPusher\Site\Baidu;
-use Swoft\Stdlib\Response;
+use SwoftComponents\SitemapPusher\Site\Baidu;
+use SwoftComponents\SitemapPusher\Response;
 
 class BaiduTest extends TestCase
 {

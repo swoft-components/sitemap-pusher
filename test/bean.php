@@ -21,7 +21,7 @@ return [
         ],
     ],
     'custom-datasource' => [
-        'class' => \Swoft\SitemapPusher\DataSource\CustomDataSource::class,
+        'class' => \SwoftComponents\SitemapPusher\DataSource\CustomDataSource::class,
         'data' => [
             'https://www.liujie.xin/',
             'https://www.liujie.xin/index.html',

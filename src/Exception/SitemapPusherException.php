@@ -11,7 +11,7 @@
  * @contact king.2oo8@163.com
  */
 
-namespace Swoft\SitemapPusher\Exception;
+namespace SwoftComponents\SitemapPusher\Exception;
 
 use Exception;
 

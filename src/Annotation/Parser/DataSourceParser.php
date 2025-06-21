@@ -11,15 +11,15 @@
  * @contact king.2oo8@163.com
  */
 
-namespace Swoft\SitemapPusher\Annotation\Parser;
+namespace SwoftComponents\SitemapPusher\Annotation\Parser;
 
 use Swoft\Annotation\Annotation\Mapping\AnnotationParser;
 use Swoft\Annotation\Annotation\Parser\Parser;
 use Swoft\Annotation\Exception\AnnotationException;
 use Swoft\Bean\Annotation\Mapping\Bean;
-use Swoft\SitemapPusher\Annotation\Mapping\DataSource;
-use Swoft\SitemapPusher\Contract\DataSourceInterface;
-use Swoft\SitemapPusher\Sitemap;
+use SwoftComponents\SitemapPusher\Annotation\Mapping\DataSource;
+use SwoftComponents\SitemapPusher\Contract\DataSourceInterface;
+use SwoftComponents\SitemapPusher\Sitemap;
 
 /**
  * Class DataSourceParser

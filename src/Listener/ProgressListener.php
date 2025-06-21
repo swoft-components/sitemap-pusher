@@ -11,14 +11,14 @@
  * @contact king.2oo8@163.com
  */
 
-namespace Swoft\SitemapPusher\Listener;
+namespace SwoftComponents\SitemapPusher\Listener;
 
 use Swoft\Event\Annotation\Mapping\Listener;
 use Swoft\Event\EventHandlerInterface;
 use Swoft\Event\EventInterface;
 use Swoft\Log\Helper\CLog;
-use Swoft\SitemapPusher\Sitemap;
-use Swoft\SitemapPusher\SitemapPusherEvent;
+use SwoftComponents\SitemapPusher\Sitemap;
+use SwoftComponents\SitemapPusher\SitemapPusherEvent;
 
 /**
  * Class ProgressListener

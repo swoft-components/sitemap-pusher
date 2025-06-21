@@ -11,9 +11,9 @@
  * @contact king.2oo8@163.com
  */
 
-namespace Swoft\SitemapPusher\Contract;
+namespace SwoftComponents\SitemapPusher\Contract;
 
-use Swoft\SitemapPusher\Sitemap;
+use SwoftComponents\SitemapPusher\Sitemap;
 
 /**
  * Interface DataSourceInterface

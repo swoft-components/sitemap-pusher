@@ -3,12 +3,15 @@
     "description": "SitemapPusher 是一个专门为 Swoft2 开发者设计的网站地图组件，旨在简化向各大站长平台提交网站链接的过程。通过自定义数据源生成sitemap，自动化的链接提交，帮助站长加速搜索引擎对新发布或更新内容的收录速度。",
     "type": "library",
     "version": "1.0.0",
-    "repositories": [
-        {
+    "repositories": {
+        "swoft-components/stdlib": {
             "type": "path",
-            "url": "../stdlib"
+            "url": "../stdlib",
+            "options": {
+                "symlink": true
+            }
         }
-    ],
+    },
     "require": {
         "php": ">=7.4",
         "swoft/framework": "~2.0.0",
@@ -18,7 +21,7 @@
     },
     "autoload": {
         "psr-4": {
-            "Swoft\\SitemapPusher\\": "src/"
+            "SwoftComponents\\SitemapPusher\\": "src/"
         }
     },
     "require-dev": {
@@ -28,8 +31,8 @@
         "psr-4": {
             "SwoftTest\\Unit\\": "vendor/swoft/framework/test/unit/",
             "SwoftTest\\Testing\\": "vendor/swoft/framework/test/testing/",
-            "SwoftTest\\SitemapPusher\\Unit\\": "test/unit",
-            "SwoftTest\\SitemapPusher\\Testing\\": "test/testing"
+            "SwoftComponentsTest\\SitemapPusher\\Unit\\": "test/unit",
+            "SwoftComponentsTest\\SitemapPusher\\Testing\\": "test/testing"
         }
     },
     "license": "Apache-2.0",

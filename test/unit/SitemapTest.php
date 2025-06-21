@@ -11,10 +11,10 @@
  * @contact king.2oo8@163.com
  */
 
-namespace SwoftTest\SitemapPusher\Unit;
+namespace SwoftComponentsTest\SitemapPusher\Unit;
 
 use PHPUnit\Framework\TestCase;
-use Swoft\SitemapPusher\Sitemap;
+use SwoftComponents\SitemapPusher\Sitemap;
 
 /**
  * Class SitemapTest
@@ -30,7 +30,7 @@ class SitemapTest extends TestCase
         $this->assertIsObject($sitemap);
         $this->assertInstanceOf(Sitemap::class, $sitemap);
         $path = sys_get_temp_dir() . DIRECTORY_SEPARATOR. 'sitemap.xml';
-        $sitemap->generate($path, 10, 10);
+        $sitemap->generate($path, 5, 5);
         // 判断网站地图文件是否生成成功
         $this->assertFileExists($path);
         echo file_get_contents($path);

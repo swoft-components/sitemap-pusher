@@ -11,7 +11,7 @@
  * @contact king.2oo8@163.com
  */
 
-namespace Swoft\SitemapPusher;
+namespace SwoftComponents\SitemapPusher;
 
 use Swoft\Bean\Annotation\Mapping\Bean;
 use Swoft\Helper\ComposerJSON;
@@ -55,7 +55,7 @@ class Autoloader extends SwoftComponent
                 ],
             ],
             'pusher-baidu' => [
-                'class' => \Swoft\SitemapPusher\Site\Baidu::class,
+                'class' => \SwoftComponents\SitemapPusher\Site\Baidu::class,
                 'token' => 'default',
                 'site' => 'https://www.baidu.com',
             ],

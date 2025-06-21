@@ -7,7 +7,7 @@
  * @contact  group@swoft.org
  * @license  https://github.com/swoft-cloud/swoft/blob/master/LICENSE
  */
-namespace Swoft\SitemapPusher\Testing;
+namespace SwoftComponentsTest\SitemapPusher\Testing;
 
 use Swoft\SwoftComponent;
 

@@ -98,10 +98,10 @@ class Sitemap
     {
         // 注册数据源
         DataSourceRegister::register($this);
-        // 切换到第一个数据源
-        $this->nextDataSource();
         // 获取总记录数
         $total = $this->getCount();
+        // 切换到第一个数据源
+        $this->nextDataSource();
         // 触发生成前事件
         \Swoft::triggerByArray(SitemapPusherEvent::BEFORE_GENERATE, $this, [
             'filePath' => $filePath,
@@ -185,7 +185,9 @@ class Sitemap
     private function getCount(): int
     {
         $count = 0;
-        foreach ($this->dataSourceQueue as $dataSource) {
+        // 遍历会导致优先队列清空，需要用副本.
+        $queue = clone $this->dataSourceQueue;
+        foreach ($queue as $dataSource) {
             $count += $dataSource->count();
         }
         return $count;

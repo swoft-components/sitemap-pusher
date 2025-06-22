@@ -48,6 +48,7 @@ class DataSourceParser extends Parser
             throw new AnnotationException("`$this->className` must implement `DataSourceInterface`!");
         }
         $name = $annotationObject->getName();
+        $name = empty($name) ? $this->className : $name;
         // 注册到 Sitemap 类中
         Sitemap::registerDataSource($name);
         // 此相当于一个 Bean 定义(实例名称，类名，生命周期，别名)

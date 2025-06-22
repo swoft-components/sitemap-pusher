@@ -15,6 +15,7 @@ namespace SwoftComponents\SitemapPusher;
 
 use Swoft\Bean\Concern\PrototypeTrait;
 use SwoftComponents\SitemapPusher\Contract\DataSourceInterface;
+use SwoftComponents\SitemapPusher\DataSource\EmptyDataSource;
 use SwoftComponents\SitemapPusher\Exception\SitemapPusherException;
 
 /**
@@ -82,10 +83,6 @@ class Sitemap
      */
     public function nextDataSource(): self
     {
-        // 如果没有状态可以切换则保持最后一个状态不变
-        if (!isset($this->dataSourceList[$this->index + 1])) {
-            return $this;
-        }
         $this->index++;
         return $this;
     }
@@ -174,6 +171,9 @@ class Sitemap
      */
     public function getData(int $size): array
     {
+        if ($this->index >= count($this->dataSourceList)) {
+            return [];
+        }
         return $this->dataSourceList[$this->index]->getData($this, $size);
     }
 

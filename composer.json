@@ -9,7 +9,7 @@
     "require": {
         "php": ">=7.4",
         "swoft/framework": "~2.0.0",
-        "swoft-components/stdlib": "^1.0.0",
+        "swoft-components/stdlib": "^v1.0.0",
         "ext-curl": "*",
         "ext-json": "*"
     },

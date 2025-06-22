@@ -52,10 +52,6 @@ class CustomDataSource implements DataSourceInterface
     {
         // 剩余的数据量
         $left = count($this->data) - $this->offset;
-        // 防止作为最后一个状态时进入递归死循环
-        if ($left == 0) {
-            return [];
-        }
         // 偏移量复制值
         $offsetCopyVal = $this->offset;
         // 表示数据已经不够一页，需要从下个数据源读取

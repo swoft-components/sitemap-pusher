@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 /**
- * Autoloader.php
+ * AutoLoader.php
  *
  * 版权所有(c) 2025 刘杰（king.2oo8@163.com）。保留所有权利。
  *
@@ -16,7 +16,7 @@ namespace SwoftComponents\SitemapPusher;
 use Swoft\Helper\ComposerJSON;
 use Swoft\SwoftComponent;
 
-class Autoloader extends SwoftComponent
+class AutoLoader extends SwoftComponent
 {
 
     /**

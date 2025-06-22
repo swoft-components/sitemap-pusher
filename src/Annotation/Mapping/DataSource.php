@@ -24,7 +24,8 @@ use Doctrine\Common\Annotations\Annotation\Target;
  * @Annotation
  * @Target("CLASS")
  * @Attributes({
- *     @Attribute("name", type="string")
+ *     @Attribute("name", type="string"),
+ *     @Attribute("priority", type="int"),
  * })
  */
 class DataSource

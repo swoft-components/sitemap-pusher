@@ -26,14 +26,16 @@ class SitemapTest extends TestCase
     public function testGenerate(): void
     {
         /** @var Sitemap $sitemap */
-        $sitemap = bean('sitemap-generator');
-        $this->assertIsObject($sitemap);
+        $sitemap = bean(Sitemap::BEAN_NAME);
         $this->assertInstanceOf(Sitemap::class, $sitemap);
         $path = sys_get_temp_dir() . DIRECTORY_SEPARATOR. 'sitemap.xml';
         $sitemap->generate($path, 5, 5);
         // 判断网站地图文件是否生成成功
         $this->assertFileExists($path);
-        echo file_get_contents($path);
+        // 输出网站地图文件内容
+        $str = trim(file_get_contents($path));
+        $this->assertEquals($str, implode("\n", config('app.data')));
+        unlink($path);
     }
 
 }

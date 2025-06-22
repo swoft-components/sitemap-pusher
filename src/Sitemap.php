@@ -13,15 +13,17 @@
 
 namespace SwoftComponents\SitemapPusher;
 
+use SplPriorityQueue;
+use Swoft\Bean\Annotation\Mapping\Bean;
 use Swoft\Bean\Concern\PrototypeTrait;
 use SwoftComponents\SitemapPusher\Contract\DataSourceInterface;
-use SwoftComponents\SitemapPusher\DataSource\EmptyDataSource;
-use SwoftComponents\SitemapPusher\Exception\SitemapPusherException;
+use SwoftComponents\SitemapPusher\DataSource\DataSourceRegister;
 
 /**
  * Class Sitemap
  *
  * @since 1.0.0
+ * @Bean(Sitemap::BEAN_NAME, scope=Bean::SINGLETON)
  */
 class Sitemap
 {
@@ -29,62 +31,59 @@ class Sitemap
     use PrototypeTrait;
 
     /**
-     * @var array 数据源类列表
+     * 容器中注册的对象名称
+     *
+     * @var string
      */
-    private static array $dataSourceClasses = [];
+    const BEAN_NAME = 'sitemap-generator';
 
     /**
-     * @var DataSourceInterface[] 数据源列表
+     * 数据源对象队列，用于存储数据源对象及其优先级
+     *
+     * @var SplPriorityQueue $dataSourceQueue
      */
-    private array $dataSourceList = [];
+    private SplPriorityQueue $dataSourceQueue;
 
     /**
-     * @var int 当前选中的数据源在数据源列表中的索引
+     * 当前数据源对象
+     *
+     * @var DataSourceInterface|null $dataSource
      */
-    private int $index = 0;
+    private ?DataSourceInterface $dataSource = null;
 
-    public static function new(): self
+    /**
+     * 初始化函数，对象通过容器实例化时候优先执行
+     */
+    public function init(): void
     {
-        return self::__instance();
+        // 初始化优先队列
+        $this->dataSourceQueue = new SplPriorityQueue();
     }
 
     /**
-     * 注册数据源类
+     * 添加数据源
      *
-     * @param string $dataSourceClass
+     * @param DataSourceInterface $dataSource 数据源对象
+     * @param int $priority 优先级整数值，越大优先级越高
      * @return void
      */
-    public static function registerDataSource(string $dataSourceClass): void
+    public function addDataSource(DataSourceInterface $dataSource, int $priority): void
     {
-        self::$dataSourceClasses[] = $dataSourceClass;
-    }
-
-    /**
-     * 初始化数据源列表
-     *
-     * @return void
-     * @throws SitemapPusherException
-     */
-    public function initDataSource()
-    {
-        foreach (self::$dataSourceClasses as $dataSourceClass) {
-            // 获取数据源原型实例存储到数据源列表中
-            $this->dataSourceList[] = \bean($dataSourceClass);
-        }
-        if (empty($this->dataSourceList)) {
-            throw new SitemapPusherException('Sitemap must have at least one data source instance.');
-        }
+        $this->dataSourceQueue->insert($dataSource, $priority);
     }
 
     /**
      * 切换到下一个数据源
      *
-     * @return $this
+     * @return void
      */
-    public function nextDataSource(): self
+    public function nextDataSource(): void
     {
-        $this->index++;
-        return $this;
+        if ($this->dataSourceQueue->isEmpty()) {
+            $this->dataSource = null;
+            return;
+        }
+        $this->dataSource = $this->dataSourceQueue->extract();
     }
 
     /**
@@ -94,12 +93,13 @@ class Sitemap
      * @param int $pageSize 分页大小，默认为 20
      * @param int $logPerNum 日志记录间隔，默认为 300
      * @return void
-     * @throws SitemapPusherException
      */
     public function generate(string $filePath, int $pageSize = 50, int $logPerNum = 300): void
     {
-        // 初始化数据源列表（每次生成必须重新初始化新数据源实例）
-        $this->initDataSource();
+        // 注册数据源
+        DataSourceRegister::register($this);
+        // 切换到第一个数据源
+        $this->nextDataSource();
         // 获取总记录数
         $total = $this->getCount();
         // 触发生成前事件
@@ -171,10 +171,10 @@ class Sitemap
      */
     public function getData(int $size): array
     {
-        if ($this->index >= count($this->dataSourceList)) {
+        if ($this->dataSource === null) {
             return [];
         }
-        return $this->dataSourceList[$this->index]->getData($this, $size);
+        return $this->dataSource->getData($this, $size);
     }
 
     /**
@@ -185,7 +185,7 @@ class Sitemap
     private function getCount(): int
     {
         $count = 0;
-        foreach ($this->dataSourceList as $dataSource) {
+        foreach ($this->dataSourceQueue as $dataSource) {
             $count += $dataSource->count();
         }
         return $count;

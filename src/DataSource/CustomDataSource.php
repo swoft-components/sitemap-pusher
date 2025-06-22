@@ -13,18 +13,23 @@
 
 namespace SwoftComponents\SitemapPusher\DataSource;
 
-use Swoft\Bean\Annotation\Mapping\Bean;
+use SwoftComponents\SitemapPusher\Annotation\Mapping\DataSource;
 use SwoftComponents\SitemapPusher\Contract\DataSourceInterface;
 use SwoftComponents\SitemapPusher\Sitemap;
 
 /**
  * Class CustomSource
  *
- * @since 2.0.0
- * @Bean(scope=Bean::PROTOTYPE)
+ * @since 1.0.0
+ * @DataSource(CustomDataSource::BEAN_NAME)
  */
 class CustomDataSource implements DataSourceInterface
 {
+
+    /**
+     * 容器中注册的对象名称
+     */
+    const BEAN_NAME = 'customDataSource';
 
     /**
      * @var int 指向本地数据读取的起始偏移量
@@ -45,18 +50,16 @@ class CustomDataSource implements DataSourceInterface
      */
     public function getData(Sitemap $sitemap, int $size): array
     {
-
-        // 偏移量复制值
-        $offsetCopyVal = null;
         // 剩余的数据量
         $left = count($this->data) - $this->offset;
         // 防止作为最后一个状态时进入递归死循环
         if ($left == 0) {
             return [];
         }
+        // 偏移量复制值
+        $offsetCopyVal = $this->offset;
         // 表示数据已经不够一页，需要从下个数据源读取
         if ($size - $left > 0) {
-            $offsetCopyVal = $this->offset;
             $this->offset += $left;
             $sitemap->nextDataSource();
             if ($left > 0) {
@@ -64,7 +67,6 @@ class CustomDataSource implements DataSourceInterface
             }
             return $sitemap->getData($size);
         } else {
-            $offsetCopyVal = $this->offset;
             $this->offset += $size;
             return array_slice($this->data, $offsetCopyVal, $size);
         }

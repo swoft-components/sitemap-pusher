@@ -30,7 +30,19 @@ use Doctrine\Common\Annotations\Annotation\Target;
 class DataSource
 {
 
+    /**
+     * 数据源名称
+     *
+     * @var string|mixed
+     */
     private string $name = '';
+
+    /**
+     * 优先级, 默认值为 0, 优先级越大, 越先执行
+     *
+     * @var int
+     */
+    private int $priority = 0;
 
     /**
      * DataSource constructor.
@@ -45,6 +57,9 @@ class DataSource
         if (isset($values['name'])) {
             $this->name = $values['name'];
         }
+        if (isset($values['priority'])) {
+            $this->priority = (int)$values['priority'];
+        }
     }
 
     /**
@@ -55,6 +70,16 @@ class DataSource
     public function getName(): string
     {
         return $this->name;
+    }
+
+    /**
+     * 获取当前数据源的优先级
+     *
+     * @return int
+     */
+    public function getPriority(): int
+    {
+        return $this->priority;
     }
 
 }

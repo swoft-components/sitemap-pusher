@@ -13,6 +13,7 @@
 
 namespace SwoftComponents\SitemapPusher\Site;
 
+use Swoft\Bean\Annotation\Mapping\Bean;
 use SwoftComponents\SitemapPusher\Contract\SitemapPushInterface;
 use SwoftComponents\SitemapPusher\Exception\SitemapPusherException;
 use SwoftComponents\SitemapPusher\Response;
@@ -22,9 +23,15 @@ use SwoftComponents\Stdlib\Contract\ResponseInterface;
  * Class Baidu
  *
  * @since 1.0.0
+ * @Bean(Baidu::BEAN_NAME, scope=Bean::SINGLETON)
  */
 class Baidu implements SitemapPushInterface
 {
+
+    /**
+     * 容器中注册的对象名称
+     */
+    const BEAN_NAME = 'pusher-baidu';
 
     /**
      * 百度推送接口
@@ -38,14 +45,14 @@ class Baidu implements SitemapPushInterface
      *
      * @var string $token
      */
-    private string $token;
+    private string $token = 'default';
 
     /**
      * 站点域名（含协议）
      *
      * @var string $site
      */
-    private string $site;
+    private string $site = 'https://www.baidu.com';
 
     /**
      * 提交站点地图中的连接

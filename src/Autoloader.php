@@ -13,7 +13,6 @@
 
 namespace SwoftComponents\SitemapPusher;
 
-use Swoft\Bean\Annotation\Mapping\Bean;
 use Swoft\Helper\ComposerJSON;
 use Swoft\SwoftComponent;
 
@@ -48,17 +47,6 @@ class Autoloader extends SwoftComponent
     public function beans(): array
     {
         return [
-            'sitemap-generator' => [
-                'class' => Sitemap::class,
-                '__option' => [
-                    'scope' => Bean::PROTOTYPE,
-                ],
-            ],
-            'pusher-baidu' => [
-                'class' => \SwoftComponents\SitemapPusher\Site\Baidu::class,
-                'token' => 'default',
-                'site' => 'https://www.baidu.com',
-            ],
         ];
     }
 

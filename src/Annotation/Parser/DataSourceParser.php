@@ -19,7 +19,7 @@ use Swoft\Annotation\Exception\AnnotationException;
 use Swoft\Bean\Annotation\Mapping\Bean;
 use SwoftComponents\SitemapPusher\Annotation\Mapping\DataSource;
 use SwoftComponents\SitemapPusher\Contract\DataSourceInterface;
-use SwoftComponents\SitemapPusher\Sitemap;
+use SwoftComponents\SitemapPusher\DataSource\DataSourceRegister;
 
 /**
  * Class DataSourceParser
@@ -49,8 +49,8 @@ class DataSourceParser extends Parser
         }
         $name = $annotationObject->getName();
         $name = empty($name) ? $this->className : $name;
-        // 注册到 Sitemap 类中
-        Sitemap::registerDataSource($name);
+        // 添加到数据源注册器中
+        DataSourceRegister::addDataSource($name, $annotationObject->getPriority());
         // 此相当于一个 Bean 定义(实例名称，类名，生命周期，别名)
         return [$name, $this->className, Bean::PROTOTYPE, ''];
     }

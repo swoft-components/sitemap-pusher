@@ -11,21 +11,13 @@
  * @contact king.2oo8@163.com
  */
 
+use SwoftComponents\SitemapPusher\DataSource\CustomDataSource;
+
 return [
     'config' => [
         'path' => __DIR__ . '/config',
     ],
-    'sitemap-generator' => [
-        'dataSourceList' => [
-            bean('custom-datasource')
-        ],
-    ],
-    'custom-datasource' => [
-        'class' => \SwoftComponents\SitemapPusher\DataSource\CustomDataSource::class,
-        'data' => [
-            'https://www.liujie.xin/',
-            'https://www.liujie.xin/index.html',
-            'https://www.liujie.xin/about.html',
-        ],
+    CustomDataSource::BEAN_NAME => [
+        'data' => config('app.data'),
     ],
 ];

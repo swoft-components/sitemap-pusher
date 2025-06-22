@@ -12,5 +12,11 @@
  */ 
 
 return [
-
+    'app' => [
+        'data' => [
+            'https://www.liujie.xin/',
+            'https://www.liujie.xin/index.html',
+            'https://www.liujie.xin/about.html',
+        ],
+    ]
 ];

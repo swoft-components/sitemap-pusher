@@ -27,7 +27,7 @@ class BaiduTest extends TestCase
         ];
         $response = bean(Baidu::class)->submit($urls);
         $this->assertInstanceOf(Response::class, $response);
-        var_dump($response->getRawData());
+        echo $response->getRawData(). PHP_EOL;
     }
 
 }

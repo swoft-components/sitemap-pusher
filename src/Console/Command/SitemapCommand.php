@@ -41,10 +41,10 @@ class SitemapCommand
      */
     public function generate(): void
     {
-        $dir = input()->getOpt('dir');
-        $name = input()->getOpt('name');
-        $num = input()->getOpt('num');
-        $progress = input()->getOpt('progress');
+        $dir = input()->getOpt('dir', './');
+        $name = input()->getOpt('name', 'sitemap.txt');
+        $num = input()->getOpt('num', 50);
+        $progress = input()->getOpt('progress', 200);
         try {
             // 网站地图目标文件地址
             $filePath = rtrim($dir, '/'). DIRECTORY_SEPARATOR. $name;

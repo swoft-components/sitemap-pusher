@@ -15,6 +15,7 @@ namespace SwoftComponentsTest\SitemapPusher\Unit;
 
 use PHPUnit\Framework\TestCase;
 use SwoftComponents\SitemapPusher\Sitemap;
+use Toolkit\Cli\App;
 
 /**
  * Class SitemapTest
@@ -35,6 +36,34 @@ class SitemapTest extends TestCase
         // 输出网站地图文件内容
         $str = trim(file_get_contents($path));
         $this->assertEquals($str, implode("\n", config('app.data')));
+        unlink($path);
+    }
+
+    /**
+     * 测试生成网站地图的命令
+     *
+     * @return void
+     */
+    public function testCommand(): void
+    {
+        /** @var App $app */
+        $app = bean('cliApp');
+        $input = input();
+        $input->setFlags([
+            '--dir', '/tmp',
+            '--name', 'sitemap.txt',
+            '--num', '20',
+            '--progress', '20',
+        ]);
+        $input->setCommand('sitemap:gen');
+        // 执行命令
+        $app->run();
+        $dir = $input->getOpt('dir');
+        $name = $input->getOpt('name');
+        $path = rtrim($dir, '/'). DIRECTORY_SEPARATOR. $name;
+        // 判断网站地图文件是否生成成功
+        $this->assertFileExists($path);
+        // 删除数据
         unlink($path);
     }
 

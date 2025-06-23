@@ -4,10 +4,17 @@
     "type": "library",
     "version": "v1.0.2",
     "minimum-stability": "stable",
+    "license": "Apache-2.0",
+    "authors": [
+        {
+            "name": "liujie",
+            "email": "king.2oo8@163.com"
+        }
+    ],
     "repositories": {
     },
     "require": {
-        "php": ">=7.4",
+        "php": "^7.4",
         "swoft/framework": "~2.0.0",
         "swoft-components/stdlib": "^v1.0.0",
         "ext-curl": "*",
@@ -29,13 +36,6 @@
             "SwoftComponentsTest\\SitemapPusher\\Testing\\": "test/testing"
         }
     },
-    "license": "Apache-2.0",
-    "authors": [
-        {
-            "name": "liujie",
-            "email": "king.2oo8@163.com"
-        }
-    ],
     "scripts": {
         "test": "php run.php -c phpunit.xml"
     }

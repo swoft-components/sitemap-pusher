@@ -61,7 +61,7 @@ class DataSourceItem
      * @param string|null $priority
      * @return static
      */
-    public static function new(string $loc, string $lastMod = null, string $changeFreq = null, string $priority = null): self
+    public static function new(string $loc, string $lastMod = null, string $changeFreq = null, float $priority = null): self
     {
         $bean = \bean(self::class);
         $bean->loc = $loc;

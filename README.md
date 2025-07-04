@@ -6,7 +6,7 @@ SitemapPusher 是一个专门为 Swoft2 开发者设计的网站地图组件，�
 
 ### 版本说明
 
-当前最新版本：**v1.0.4-beta**
+当前最新版本：**v1.0.5-beta**
 
 稳定版：v1.0.2（此版本不支持命令行工具）
 
@@ -15,7 +15,18 @@ SitemapPusher 是一个专门为 Swoft2 开发者设计的网站地图组件，�
 + 自定义数组数据源（`CustomDataSource::class`）
 
   用户可以直接通过配置数组内容，写入sitemap。
-
+  ```php
+  // 自定义数据源至少有一个字段，后续三个字段为可选字段，分别对应: lastmod, changefreq, priority
+  return [
+    'app' => [
+        'data' => [
+            ['https://www.liujie.xin/'],
+            ['https://www.liujie.xin/index.html'],
+            ['https://www.liujie.xin/about.html'],
+        ],
+    ]
+];
+  ```
 + 用户自定义数据源（`@DataSource`）
 
   使用 @DataSource 注解绑定到相应的自定义数据源类，数据源类必须实现 `DataSourceInterface::class`
@@ -52,6 +63,7 @@ SitemapPusher 是一个专门为 Swoft2 开发者设计的网站地图组件，�
     + --name, -name 指定网站地图的名称，默认值为`sitemap.xml`
     + --num, -n 指定分页大小，对大量数据生成地图的网站，数据要分批进行写入，默认值为`50`
     + --progress, -p 指定每隔多少条记录写入，日志显示当前的执行进度，和预计完成时间，默认值为 `200`
+    + --type, -t 指定生成的网站地图类型，默认值为 `xml`，可选值为 `txt` 和 `xml`
 
 ### 快速开始
 
@@ -62,7 +74,9 @@ SitemapPusher 是一个专门为 Swoft2 开发者设计的网站地图组件，�
 ```php
 /** @var Sitemap $sitemap */
 $sitemap = bean(Sitemap::BEAN_NAME);
-$sitemap->generate(\Swoft::getAlias('@base/public/sitemap.txt'), 50, 50);
+// 不同类型的 Writer 对应最后生成的不同的 sitemap 类型
+$writer = TxtWriter::new(\Swoft::getAlias('@base/public/sitemap.txt'), 'w');
+$sitemap->generate($writer, 50, 50);
 ```
 
 设置自定义数据源，支持设置数据获取的优先级（决定获取数据源的顺序，priority 值越大优先级越高）。
@@ -81,7 +95,7 @@ class TagSource implements DataSourceInterface
      *
      * @param Sitemap $sitemap
      * @param int $size
-     * @return array
+     * @return DataSourceItem[]
      */
     public function getData(Sitemap $sitemap, int $size): array
     {
@@ -107,7 +121,8 @@ class TagSource implements DataSourceInterface
 # 通过命令在当前目录生成网站地图
 php bin/sowft sitemap:gen
 # 设置目录 -d=/tmp
-# 设置名称 -name=sitemap.txt (目前只支持txt，当然如果数据源每条记录就是 xml 格式，也可以生成xml)
+# 设置名称 -name=sitemap
+# 设置类型 -t=xml (目前支持 txt 和 xml 两种格式)
 # 设置分页大小 -n=200 数据量比较大，可以设置 500，看情况定
 # 设置进度汇报参数，-p=500 表示，每写入500条记录，就会提示用户当前执行进度，和预计完成时间。
 php bin/swoft sitemap:gen -d=/tmp -name=sitemap.txt -n 50 -p 100

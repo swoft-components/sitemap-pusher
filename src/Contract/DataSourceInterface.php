@@ -13,6 +13,7 @@
 
 namespace SwoftComponents\SitemapPusher\Contract;
 
+use SwoftComponents\SitemapPusher\DataSource\DataSourceItem;
 use SwoftComponents\SitemapPusher\Sitemap;
 
 /**
@@ -28,7 +29,7 @@ interface DataSourceInterface
      *
      * @param Sitemap $sitemap Sitemap实例
      * @param int $size 每次获取的记录数
-     * @return array
+     * @return DataSourceItem[]
      */
     public function getData(Sitemap $sitemap, int $size): array;
 

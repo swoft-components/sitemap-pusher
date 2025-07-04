@@ -14,10 +14,14 @@
 namespace SwoftComponents\SitemapPusher;
 
 use SplPriorityQueue;
+use Swoft;
 use Swoft\Bean\Annotation\Mapping\Bean;
 use Swoft\Bean\Concern\PrototypeTrait;
+use SwoftComponents\SitemapPusher\Concern\AbstractWriter;
 use SwoftComponents\SitemapPusher\Contract\DataSourceInterface;
+use SwoftComponents\SitemapPusher\DataSource\DataSourceItem;
 use SwoftComponents\SitemapPusher\DataSource\DataSourceRegister;
+use Throwable;
 
 /**
  * Class Sitemap
@@ -89,12 +93,12 @@ class Sitemap
     /**
      * 生成 sitemap 文件
      *
-     * @param string $filePath sitemap 文件路径
+     * @param AbstractWriter $writer
      * @param int $pageSize 分页大小，默认为 20
      * @param int $logPerNum 日志记录间隔，默认为 300
      * @return void
      */
-    public function generate(string $filePath, int $pageSize = 50, int $logPerNum = 300): void
+    public function generate(AbstractWriter $writer, int $pageSize = 50, int $logPerNum = 300): void
     {
         // 注册数据源
         DataSourceRegister::register($this);
@@ -103,13 +107,12 @@ class Sitemap
         // 切换到第一个数据源
         $this->nextDataSource();
         // 触发生成前事件
-        \Swoft::triggerByArray(SitemapPusherEvent::BEFORE_GENERATE, $this, [
-            'filePath' => $filePath,
+        Swoft::triggerByArray(SitemapPusherEvent::BEFORE_GENERATE, $this, [
+            'filePath' => $writer->getFilePath(),
             'pageSize' => $pageSize,
             'logPerNum' => $logPerNum,
             'total' => $total,
         ]);
-        $file = fopen($filePath, 'w');
         // 当前已经写入的记录数
         $currentNum = 0;
         $durationStart = microtime(true);
@@ -118,15 +121,16 @@ class Sitemap
         try {
             do {
                 $list = $this->getData($pageSize);
-                foreach ($list as $url) {
+                /** @var DataSourceItem $item */
+                foreach ($list as $item) {
                     // 生成 sitemap 记录
-                    fwrite($file, "$url\n");
+                    $writer->write($item);
                     ++$currentNum;
                     if ($currentNum % $logPerNum === 0 || $currentNum === $total) {
                         // 记录当前时间.
                         $durationEnd = microtime(true);
-                        \Swoft::triggerByArray(SitemapPusherEvent::GENERATE_PROGRESS, $this, [
-                            'filePath' => $filePath,
+                        Swoft::triggerByArray(SitemapPusherEvent::GENERATE_PROGRESS, $this, [
+                            'filePath' => $writer->getFilePath(),
                             'pageSize' => $pageSize,
                             'logPerNum' => $logPerNum,
                             'total' => $total,
@@ -139,10 +143,10 @@ class Sitemap
                     }
                 }
             } while (count($list) === $pageSize);
-        } catch (\Throwable $t) {
+        } catch (Throwable $t) {
             // 触发生成异常事件
-            \Swoft::triggerByArray(SitemapPusherEvent::GENERATE_EXCEPTION, $this, [
-                'filePath' => $filePath,
+            Swoft::triggerByArray(SitemapPusherEvent::GENERATE_EXCEPTION, $this, [
+                'filePath' => $writer->getFilePath(),
                 'pageSize' => $pageSize,
                 'logPerNum' => $logPerNum,
                 'total' => $total,
@@ -151,10 +155,9 @@ class Sitemap
                 'exception' => $t,
             ]);
         } finally {
-            fclose($file);
             // 触发生成后事件
-            \Swoft::triggerByArray(SitemapPusherEvent::AFTER_GENERATE, $this, [
-                'filePath' => $filePath,
+            Swoft::triggerByArray(SitemapPusherEvent::AFTER_GENERATE, $this, [
+                'filePath' => $writer->getFilePath(),
                 'pageSize' => $pageSize,
                 'logPerNum' => $logPerNum,
                 'total' => $total,

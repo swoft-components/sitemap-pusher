@@ -46,7 +46,7 @@ class CustomDataSource implements DataSourceInterface
      *
      * @param Sitemap $sitemap
      * @param int $size
-     * @return array
+     * @return DataSourceItem[]
      */
     public function getData(Sitemap $sitemap, int $size): array
     {
@@ -59,12 +59,23 @@ class CustomDataSource implements DataSourceInterface
             $this->offset += $left;
             $sitemap->nextDataSource();
             if ($left > 0) {
-                return array_merge(array_slice($this->data, $offsetCopyVal, $left), $sitemap->getData($size - $left));
+                // 将数据封装为 DataSourceItem 对象
+                $list = array_map(function ($item) {
+                    $loc = $item[0];
+                    $lastMod = $item[1] ?? null;
+                    $changeFreq = $item[2] ?? null;
+                    $priority = $item[3] ?? null;
+                    return DataSourceItem::new($loc, $lastMod, $changeFreq, $priority);
+                }, array_slice($this->data, $offsetCopyVal, $left));
+                return array_merge($list, $sitemap->getData($size - $left));
             }
             return $sitemap->getData($size);
         } else {
             $this->offset += $size;
-            return array_slice($this->data, $offsetCopyVal, $size);
+            return array_map(function ($item) {
+                [$loc, $lastMod, $changeFreq, $priority] = $item;
+                return DataSourceItem::new($loc, $lastMod, $changeFreq, $priority);
+            }, array_slice($this->data, $offsetCopyVal, $size));
         }
     }
 

@@ -89,7 +89,7 @@ class Baidu implements SitemapPushInterface
         if (isset($map['success'])) {
             return Response::new()->setRawData($result)
                 ->setErrorCode(0)
-                ->setErrorMessage('success')
+                ->setErrorMessage("success: {$map['success']}, remain: {$map['remain']}")
                 ->setResult([
                     'success' => $map['success'],
                     'remain' => $map['remain'],

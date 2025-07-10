@@ -12,6 +12,7 @@
  */
 
 use SwoftComponents\SitemapPusher\DataSource\CustomDataSource;
+use SwoftComponents\SitemapPusher\Site\Baidu;
 
 return [
     'config' => [
@@ -19,5 +20,9 @@ return [
     ],
     CustomDataSource::BEAN_NAME => [
         'data' => config('app.data'),
+    ],
+    Baidu::BEAN_NAME => [
+        'token' => config('app.sitemap-pusher.token'),
+        'site' => config('app.sitemap-pusher.site'),
     ],
 ];

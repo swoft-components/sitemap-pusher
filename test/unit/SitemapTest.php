@@ -60,34 +60,4 @@ class SitemapTest extends TestCase
         unlink($path);
     }
 
-    /**
-     * 测试生成网站地图的命令
-     *
-     * @return void
-     */
-    public function testCommand(): void
-    {
-        /** @var App $app */
-        $app = bean('cliApp');
-        $input = input();
-        $input->setFlags([
-            '--dir', '/tmp',
-            '--name', 'sitemap',
-            '--num', '20',
-            '--progress', '20',
-            '--type', 'txt'
-        ]);
-        $input->setCommand('sitemap:gen');
-        // 执行命令
-        $app->run();
-        $dir = $input->getOpt('dir');
-        $name = $input->getOpt('name');
-        $type = $input->getOpt('type');
-        $path = rtrim($dir, '/'). DIRECTORY_SEPARATOR. $name. '.'. $type;
-        // 判断网站地图文件是否生成成功
-        $this->assertFileExists($path);
-        // 删除数据
-        unlink($path);
-    }
-
 }

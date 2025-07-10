@@ -13,13 +13,21 @@
 
 namespace SwoftComponents\SitemapPusher\Console\Command;
 
+use Swoft\Bean\Container;
 use Swoft\Console\Annotation\Mapping\Command;
+use Swoft\Console\Annotation\Mapping\CommandArgument;
 use Swoft\Console\Annotation\Mapping\CommandMapping;
 use Swoft\Console\Annotation\Mapping\CommandOption;
+use Swoft\Console\Exception\CommandFlagException;
+use Swoft\Console\Input\Input;
+use Swoft\Console\Output\Output;
 use SwoftComponents\SitemapPusher\Helper\ConsoleHelper;
+use SwoftComponents\SitemapPusher\Response;
+use SwoftComponents\SitemapPusher\Site\Baidu;
 use SwoftComponents\SitemapPusher\Sitemap;
 use SwoftComponents\SitemapPusher\Writer\TxtWriter;
 use SwoftComponents\SitemapPusher\Writer\XmlWriter;
+use Throwable;
 
 /**
  * Class SitemapCommand
@@ -50,7 +58,6 @@ class SitemapCommand
         $progress = input()->getOpt('progress', 200);
         $type = input()->getOpt('type', 'xml');
         try {
-            $writer = null;
             if (!in_array($type, ['xml', 'txt'])) {
                 output()->info("Generate sitemap type must be xml or txt.");
                 return;
@@ -70,8 +77,47 @@ class SitemapCommand
             $sitemap = bean(Sitemap::BEAN_NAME);
             $sitemap->generate($writer, $num, $progress);
             output()->info("Generate sitemap success.");
-        } catch (\Throwable $t) {
+        } catch (Throwable $t) {
             output()->error("Generate sitemap failed: " . $t->getMessage());
+        }
+    }
+
+    /**
+     * @CommandMapping(name="push", alias="push", desc="Push url to search engine.")
+     *
+     * @CommandOption(name="engine", type="array", short="eg", default={"baidu"}, desc="Push url to search engine.", mode=Command::OPT_IS_ARRAY)
+     * @CommandArgument(name="url", type="string", required=true, desc="Push url to search engine.", mode=Command::ARG_REQUIRED)
+     *
+     *
+     * @param Input $input
+     * @param Output $output
+     * @return void
+     * @throws CommandFlagException
+     */
+    public function push(Input $input, Output $output): void
+    {
+        $engines = $input->getSameOpt(['engine', 'eg'], ['baidu']);
+        $url = $input->getRequiredArg('url');
+        // 开始执行推送操作
+        $enginesMap = [
+            'baidu' => Baidu::BEAN_NAME,
+        ];
+        foreach ($engines as $engine) {
+            if (!isset($enginesMap[$engine])) {
+                $output->error("The '$engine' push engine is not supported.");
+                continue;
+            }
+            if (!Container::getInstance()->has($enginesMap[$engine])) {
+                $output->error("The bean of '$engine' is not found.");
+                continue;
+            }
+            /** @var Response $response */
+            $response = bean($enginesMap[$engine])->submit([$url]);
+            if ($response->getErrorCode() == 0) {
+                $output->success("Push url: $url to $engine {$response->getErrorMessage()}.");
+            } else {
+                $output->error($response->getRawData());
+            }
         }
     }
 

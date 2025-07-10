@@ -18,5 +18,9 @@ return [
             ['https://www.liujie.xin/index.html'],
             ['https://www.liujie.xin/about.html'],
         ],
-    ]
+        'sitemap-pusher' => [
+            'token' => '请在百度站长->普通收录->资源提交，获取准入秘钥 token',
+            'site' => 'https://www.liujie.xin',
+        ],
+    ],
 ];

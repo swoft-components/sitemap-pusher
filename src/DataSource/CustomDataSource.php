@@ -13,6 +13,7 @@
 
 namespace SwoftComponents\SitemapPusher\DataSource;
 
+use Swoft;
 use Swoft\Log\Helper\CLog;
 use SwoftComponents\SitemapPusher\Annotation\Mapping\DataSource;
 use SwoftComponents\SitemapPusher\Contract\DataSourceInterface;
@@ -59,6 +60,7 @@ class CustomDataSource implements DataSourceInterface
         if (!$filepath) {
             return;
         }
+        $filepath = Swoft::getAlias($filepath);
         // 判断文件是由有效
         if(!is_file($filepath)) {
             throw new SitemapPusherException(sprintf('Invalid data file path: %s.', $filepath));

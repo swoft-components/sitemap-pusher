@@ -91,7 +91,10 @@ class CustomDataSource implements DataSourceInterface
             // 读取一行数据
             $line = fgets($this->file);
             if ($line === false) {
-                CLog::warning(sprintf('File: %s, read error.', $this->filepath));
+                // 不是文件结尾代表有错误
+                if (!feof($this->file)) {
+                    CLog::warning(sprintf('File: %s, read error.', $this->filepath));
+                }
                 break;
             }
             // 获取当前行的网站地图数据
@@ -132,7 +135,10 @@ class CustomDataSource implements DataSourceInterface
             // 读取一行数据
             $line = fgets($this->file);
             if ($line === false) {
-                CLog::warning(sprintf('File: %s, read error.', $this->filepath));
+                // 不是文件结尾代表有错误
+                if (!feof($this->file)) {
+                    CLog::warning(sprintf('File: %s, read error.', $this->filepath));
+                }
                 break;
             }
             // 获取当前行的网站地图数据

@@ -19,7 +19,7 @@ return [
         'path' => __DIR__ . '/config',
     ],
     CustomDataSource::BEAN_NAME => [
-        'data' => config('app.data'),
+        'filepath' => config('app.filepath'),
     ],
     Baidu::BEAN_NAME => [
         'token' => config('app.sitemap-pusher.token'),

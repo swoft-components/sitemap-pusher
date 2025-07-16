@@ -17,7 +17,6 @@ use PHPUnit\Framework\TestCase;
 use SwoftComponents\SitemapPusher\Sitemap;
 use SwoftComponents\SitemapPusher\Writer\TxtWriter;
 use SwoftComponents\SitemapPusher\Writer\XmlWriter;
-use Toolkit\Cli\App;
 
 /**
  * Class SitemapTest
@@ -37,12 +36,24 @@ class SitemapTest extends TestCase
         // 判断网站地图文件是否生成成功
         $this->assertFileExists($path);
         // 输出网站地图文件内容
-        $str = trim(file_get_contents($path));
-        $expected = array_map(function ($item) {
-            return $item[0];
-        }, config('app.data'));
-        $this->assertEquals($str, implode("\n", $expected));
+        $this->assertStringEqualsFile($path, $this->getSourceData());
         unlink($path);
+    }
+
+    private function getSourceData(): string
+    {
+        // 获取源数据内容
+        $source = file_get_contents(config('app.filepath'));
+        $lines = explode(PHP_EOL, $source);
+        $data = [];
+        foreach ($lines as $line) {
+            if (empty($line)) {
+                continue;
+            }
+            [$loc,] = explode(',' , $line);
+            $data[] = trim($loc);
+        }
+        return implode(PHP_EOL, $data). PHP_EOL;
     }
 
     public function testXmlSitemapGenerate(): void

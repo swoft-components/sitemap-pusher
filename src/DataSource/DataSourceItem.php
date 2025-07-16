@@ -58,7 +58,7 @@ class DataSourceItem
      * @param string $loc
      * @param string|null $lastMod
      * @param string|null $changeFreq
-     * @param string|null $priority
+     * @param float|null $priority
      * @return static
      */
     public static function new(string $loc, string $lastMod = null, string $changeFreq = null, float $priority = null): self

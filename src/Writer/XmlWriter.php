@@ -59,15 +59,15 @@ class XmlWriter extends AbstractWriter implements WriterInterface
             $this->beforeDone = true;
         }
         fwrite($this->getFile(), '  <url>'. PHP_EOL);
-        fwrite($this->getFile(), "    <loc>{$item->getLoc()}</loc>". PHP_EOL);
+        fwrite($this->getFile(), sprintf("    <loc>%s</loc>\n", $item->getLoc()));
         if ($item->getLastmod()) {
-            fwrite($this->getFile(), "    <lastmod>{$item->getLastmod()}</lastmod>". PHP_EOL);
+            fwrite($this->getFile(), sprintf("    <lastmod>%s</lastmod>\n", $item->getLastMod()));
         }
         if ($item->getChangefreq()) {
-            fwrite($this->getFile(), "    <changefreq>{$item->getChangefreq()}</changefreq>". PHP_EOL);
+            fwrite($this->getFile(), sprintf("    <changefreq>%s</changefreq>\n", $item->getChangeFreq()));
         }
         if ($item->getPriority()) {
-            fwrite($this->getFile(), "    <priority>{$item->getPriority()}</priority>". PHP_EOL);
+            fwrite($this->getFile(), sprintf("    <priority>%s</priority>\n", number_format($item->getPriority(), 1)));
         }
         fwrite($this->getFile(), '  </url>'. PHP_EOL);
     }

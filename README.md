@@ -6,7 +6,7 @@ SitemapPusher 是一个专门为 Swoft2 开发者设计的网站地图组件，�
 
 ### 版本说明
 
-当前最新版本：**v1.0.6-alpha**
+当前最新版本：**v1.0.6-beta**
 
 稳定版：v1.0.2（此版本不支持命令行工具）
 
@@ -30,6 +30,11 @@ SitemapPusher 是一个专门为 Swoft2 开发者设计的网站地图组件，�
 + 用户自定义数据源（`@DataSource`）
 
   使用 @DataSource 注解绑定到相应的自定义数据源类，数据源类必须实现 `DataSourceInterface::class`
+  默认数据源，不在通过属性注入的方式加载自定义的数据，通过设置 filepath 指定文件数据源路径. 数据源文件示例如下：
+  ```text
+  https://www.liujie.xin/,,,
+  https://www.liujie.xin/about.html,,,0.8
+  ```
 
 + 分页执行，降低执行过程中的内存占用率
 
